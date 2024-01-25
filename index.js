@@ -3,7 +3,6 @@
 import "dotenv/config";
 import { createBalances } from "./lib/balances.js";
 import { getEvents } from "./lib/scan-import-events.js";
-import { hasuraWrite } from "./lib/hasura.js";
 import { dumpBalancesFile } from "./lib/export.js";
 import { addType } from "./lib/address-type.js";
 import { checkConfig, getConfig } from "./lib/config.js";
@@ -32,11 +31,6 @@ const start = async () => {
 
   if (Config.checkIfContract) {
     balances = await addType(balances);
-  }
-
-  // Write data to Hasura
-  if (Config.writeToHasura) {
-    await hasuraWrite(eventData, balances, startTimeStr);
   }
 
 	// Dump balances file locally (always dumps balances of all the addresses, doesn't matter
